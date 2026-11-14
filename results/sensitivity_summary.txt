@@ -1,0 +1,5 @@
+# 稳健性汇总：36 行（数据集种子 x 图种子 x 档位）
+
+Low: reach(中心入口) min 9.1% / median 10.0% / max 10.0% / mean 9.7%; 入口平均 12.0%; 分量数 6-11
+Medium: reach(中心入口) min 1.5% / median 1.6% / max 7.3% / mean 2.1%; 入口平均 8.0%; 分量数 24-38
+High: reach(中心入口) min 0.9% / median 98.2% / max 99.6% / mean 89.8%; 入口平均 95.9%; 分量数 2-8

@@ -1,0 +1,7 @@
+n_long,bucket,label,selectivity,n_nodes,mean_degree,graph_components,label_components,largest_frac,reach
+0,Low,25,0.005,10,28.88,1,10,0.1,0.1
+0,Medium,8,0.0275,55,28.88,1,37,0.0909,0.0182
+0,High,2,0.105,210,28.88,1,32,0.3286,0.3286
+4,Low,25,0.005,10,36.75,1,10,0.1,0.1
+4,Medium,8,0.0275,55,36.75,1,27,0.2364,0.0182
+4,High,2,0.105,210,36.75,1,6,0.9667,0.9667
