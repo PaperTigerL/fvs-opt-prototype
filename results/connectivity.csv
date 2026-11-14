@@ -1,0 +1,7 @@
+bucket,label,selectivity,stage,n_nodes,components,largest_frac,reach_rate
+Low,25,0.005,before,10,10,0.1,0.1
+Medium,8,0.0275,before,55,27,0.23636363636363636,0.01818181818181818
+High,2,0.105,before,210,6,0.9666666666666667,0.9666666666666667
+Low,25,0.005,after,10,1,1.0,1.0
+Medium,8,0.0275,after,55,1,1.0,1.0
+High,2,0.105,after,210,1,1.0,1.0
