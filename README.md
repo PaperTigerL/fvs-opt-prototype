@@ -27,7 +27,9 @@ fvs-opt-prototype/
 │   └── metrics.py             # 指标汇总与 CSV 输出
 └── results/
     ├── connectivity.csv       # 三档 selectivity × 补边前后的指标
-    └── edges_added.txt        # 每个标签补了几条边
+    ├── edges_added.txt        # 每个标签补了几条边
+    ├── reach_before_after.png # 可达率对比图（README §6 引用）
+    └── reach.svg.html         # 同一对比图的可交互版本（浏览器打开）
 ```
 
 ## 3. 运行
@@ -36,7 +38,9 @@ fvs-opt-prototype/
 python run_experiment.py
 ```
 
-无第三方依赖（只用 Python 标准库），默认参数：2000 个点、k=12、40 个标签、Zipf 指数 1.2，约 20 秒跑完。
+无第三方依赖（只用 Python 标准库）。默认参数：2000 个点、24 个高斯簇、kNN 的 k=24、每点另加 4 条随机长边（双向化后平均度约 36.75）、40 个标签、Zipf 指数 1.2，单核约 3 秒跑完，结果确定性可复现。
+
+kNN 图若不补长边，簇与簇之间完全不连通，连大标签的子图都会被切碎，与真实索引的行为不符；Vamana 的 α 剪枝正是靠保留这类「远距离但方向不同」的边实现跨簇跳转。本原型用随机长边近似这一层。
 
 ## 4. 指标
 
