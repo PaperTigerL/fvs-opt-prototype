@@ -22,7 +22,8 @@ fvs-opt-prototype/
 ├── experiments/
 │   ├── sensitivity.py           # 入口 / 种子稳健性检查（§7）
 │   ├── beam_search.py           # 预算受限搜索 Recall@10（§8）
-│   └── ablation_long_edges.py   # 长边消融（§3）
+│   ├── ablation_long_edges.py   # 长边消融（§3）
+│   └── stitch_cost.py           # 补边的结构代价：边数/度数/边长/连通性（§5、§6）
 ├── src/
 │   ├── dataset.py               # 合成数据：几何聚类 + Zipf 标签（二者独立生成）
 │   ├── graph.py                 # kNN 图构建
@@ -37,7 +38,8 @@ fvs-opt-prototype/
     ├── sensitivity.csv          # 36 组（数据集种子 × 图种子）的可达率
     ├── sensitivity_summary.txt  # 上述汇总（§7 引用）
     ├── beam_recall.csv          # 预算扫描下的 Recall@10（§8 引用）
-    └── ablation_long_edges.csv  # 长边消融（§3 引用）
+    ├── ablation_long_edges.csv  # 长边消融（§3 引用）
+    └── stitch_cost.csv/.txt     # 补边代价（§5、§6 引用）
 ```
 
 ## 3. 运行
@@ -56,6 +58,7 @@ python run_experiment.py
 python experiments/sensitivity.py   # 入口 / 种子稳健性，出 results/sensitivity.csv
 python experiments/beam_search.py   # 预算受限 Recall@10，出 results/beam_recall.csv
 python experiments/ablation_long_edges.py  # 长边消融，出 results/ablation_long_edges.csv
+python experiments/stitch_cost.py          # 补边代价（度数/边长/连通性），出 results/stitch_cost.csv
 ```
 
 ## 4. 指标
@@ -86,6 +89,8 @@ for 每个标签 L:
 每次合并选「跨分量最近的一对点」，所以补的边是**跨碎片可选的最短连接**。但要说清程度：实测补边长度中位数 11.3、
 最长 57.8（坐标场宽 100），而常规 kNN 边中位数只有 4.4——补边比常规边长约 2.6 倍，
 它做的是「把碎片缝起来」，不是「保持局部性」。复杂度 O(|L|²) 最坏，本实验规模下可接受。
+
+以上数字由 `experiments/stitch_cost.py` 产出（含边数、度数、边长分位数与补边后连通性自检）。
 
 ## 6. 实测结果
 
