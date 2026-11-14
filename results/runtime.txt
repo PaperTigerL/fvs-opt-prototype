@@ -1,0 +1,19 @@
+# 各脚本实测耗时（由 experiments/runtime.py 生成，勿手改）
+
+环境：Python 3.12.14，Windows-11-10.0.26300-SP0
+口径：含解释器启动与导入，冷启动；每行重复 2 次。
+
+波动说明：同一脚本在空闲机器与系统负载下可差 1.5 倍以上。
+本仓库实测 run_experiment.py 在空闲时约 4.5–4.7 秒，负载高时约 7.6 秒；
+因此文档写“约 5 秒（负载高时更久）”比写任何单点值更稳。
+
+script                                   runs (s)               what
+run_experiment.py                        4.63 / 4.89            主结果：三档可达率
+experiments/stitch_cost.py               4.76 / 4.75            补边代价：边数/度数/边长/连通性
+experiments/ablation_long_edges.py       8.94 / 8.96            长边消融
+experiments/beam_search.py               20.68 / 19.93          固定预算 Recall@10（3 组种子）
+experiments/sensitivity.py               51.42 / 53.00          入口/种子敏感性（12 组）
+
+合计（取每行较小值）                               89.67
+
+文档引用本文件时写“见 results/runtime.txt”，不要另抄一个数字。

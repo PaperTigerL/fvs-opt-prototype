@@ -23,7 +23,8 @@ fvs-opt-prototype/
 │   ├── sensitivity.py           # 入口 / 种子稳健性检查（§7）
 │   ├── beam_search.py           # 预算受限搜索 Recall@10（§8）
 │   ├── ablation_long_edges.py   # 长边消融（§3）
-│   └── stitch_cost.py           # 补边的结构代价：边数/度数/边长/连通性（§5、§6）
+│   ├── stitch_cost.py           # 补边的结构代价：边数/度数/边长/连通性（§5、§6）
+│   └── runtime.py               # 实测各脚本耗时，消除文档里的手写数字
 ├── src/
 │   ├── dataset.py               # 合成数据：几何聚类 + Zipf 标签（二者独立生成）
 │   ├── graph.py                 # kNN 图构建
@@ -40,7 +41,8 @@ fvs-opt-prototype/
     ├── beam_recall.csv          # 预算扫描逐次读数（3 组种子）
     ├── beam_recall_summary.csv  # 上述汇总：中位数与 min–max（§8 引用）
     ├── ablation_long_edges.csv  # 长边消融（§3 引用）
-    └── stitch_cost.csv/.txt     # 补边代价（§5、§6 引用）
+    ├── stitch_cost.csv/.txt     # 补边代价（§5、§6 引用）
+    └── runtime.txt/.csv         # 各脚本实测耗时（文档耗时的唯一来源）
 ```
 
 ## 3. 运行
@@ -49,17 +51,18 @@ fvs-opt-prototype/
 python run_experiment.py
 ```
 
-无第三方依赖（只用 Python 标准库）。默认参数：2000 个点、24 个高斯簇、kNN 的 k=24、每点另加 4 条随机长边（双向化后平均度约 36.75）、40 个标签、Zipf 指数 1.2，单核数秒跑完（本机实测 3–10 秒，视机器与 Python 版本），结果确定性可复现。
+无第三方依赖（只用 Python 标准库）。默认参数：2000 个点、24 个高斯簇、kNN 的 k=24、每点另加 4 条随机长边（双向化后平均度约 36.75）、40 个标签、Zipf 指数 1.2，单核数秒跑完（本机空闲约 5 秒，负载高时约 8 秒），结果确定性可复现。耗时不靠手写：`results/runtime.txt` 由 `experiments/runtime.py` 实测生成，文档与它冲突时以它为准。
 
 长边这一层不能省。实测去掉长边（n_long=0）后，整张图仍是**单一连通分量**——kNN 双向化后簇边界上的点会把簇连起来——但**标签诱导子图**的碎片化明显加剧：High 档从 6 个分量增至 32 个，可达率 96.7% → 32.9%。Vamana 的 α 剪枝本就保留「远距离但方向不同」的跨簇边，本原型用每点 4 条随机长边近似这一层。
 
-另两个脚本：
+其余脚本：
 
 ```bash
 python experiments/sensitivity.py   # 入口 / 种子稳健性，出 results/sensitivity.csv
 python experiments/beam_search.py   # 预算受限 Recall@10，出 results/beam_recall.csv
 python experiments/ablation_long_edges.py  # 长边消融，出 results/ablation_long_edges.csv
 python experiments/stitch_cost.py          # 补边代价（度数/边长/连通性），出 results/stitch_cost.csv
+python experiments/runtime.py --repeat 2   # 实测各脚本耗时，出 results/runtime.txt（约 3 分钟）
 ```
 
 ## 4. 指标

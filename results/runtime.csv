@@ -1,0 +1,7 @@
+script,what,run_1,run_2,min,status
+run_experiment.py,主结果：三档可达率,4.63,4.89,4.63,ok
+experiments/stitch_cost.py,补边代价：边数/度数/边长/连通性,4.76,4.75,4.75,ok
+experiments/ablation_long_edges.py,长边消融,8.94,8.96,8.94,ok
+experiments/beam_search.py,固定预算 Recall@10（3 组种子）,20.68,19.93,19.93,ok
+experiments/sensitivity.py,入口/种子敏感性（12 组）,51.42,53.0,51.42,ok
+TOTAL,,,,89.67,
